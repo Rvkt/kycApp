@@ -1,16 +1,24 @@
 import 'package:flutter/material.dart';
+// const List<String> list = <String>['Distributor', 'Employee'];
 
 class CustomDropdownWidget extends StatefulWidget {
-  const CustomDropdownWidget({super.key});
+  final List<String> list;
+  final Function(String?)? onChanged;
+
+  const CustomDropdownWidget({Key? key, required this.list, this.onChanged}) : super(key: key);
 
   @override
   State<CustomDropdownWidget> createState() => _CustomDropdownWidgetState();
 }
 
-const List<String> list = <String>['One', 'Two', 'Three', 'Four'];
-
 class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
-  String dropdownValue = list.first;
+  late String dropdownValue;
+
+  @override
+  void initState() {
+    super.initState();
+    dropdownValue = widget.list.first;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +43,15 @@ class _CustomDropdownWidgetState extends State<CustomDropdownWidget> {
             height: 0,
             color: Colors.white,
           ),
-          onChanged: (String? value) {
-            // This is called when the user selects an item.
-            setState(() {
-              dropdownValue = value!;
-            });
-          },
-          items: list.map<DropdownMenuItem<String>>((String value) {
+          onChanged: widget.onChanged,
+
+          // onChanged: (String? value) {
+          //   // This is called when the user selects an item.
+          //   setState(() {
+          //     dropdownValue = value!;
+          //   });
+          // },
+          items: widget.list.map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),

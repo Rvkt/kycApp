@@ -30,8 +30,8 @@ class MerchantFingerCaptureScreen extends StatelessWidget {
               ),
             ),
           ),
-          CustomTextFormField(labelText: 'Enter Aadhar Number', keyboardType: TextInputType.number),
-          CustomDropdownWidget(),
+          const CustomTextFormField(labelText: 'Enter Aadhar Number', keyboardType: TextInputType.number),
+          const CustomDropdownWidget(list: [],),
           const Spacer(),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),

@@ -1,5 +1,15 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:kyc_app/models/response_models/bank_kyc_response_model.dart';
+import 'package:kyc_app/providers/kyc_provider.dart';
+import 'package:kyc_app/widgets/custom_cta_button.dart';
+import 'package:kyc_app/widgets/custom_dropdown_widget.dart';
 import 'package:kyc_app/widgets/custom_text_form_field_widget.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
+
+import 'widgets/date_range_picker_widget.dart';
 
 class BankKycScreen extends StatefulWidget {
   const BankKycScreen({super.key});
@@ -9,155 +19,340 @@ class BankKycScreen extends StatefulWidget {
 }
 
 class _BankKycScreenState extends State<BankKycScreen> {
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController dateOfBirthController = TextEditingController();
+  TextEditingController genderController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController stateController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
+  TextEditingController pinCodeController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController shopAddressController = TextEditingController();
+  TextEditingController shopNameController = TextEditingController();
+  TextEditingController panNumberController = TextEditingController();
+  TextEditingController aadharNumberController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+
+  String firstName = '';
+  String lastName = '';
+  String dateOfBirth = '';
+  String gender = '';
+  String city = '';
+  String state = '';
+  String mobile = '';
+  String pincode = '';
+  String email = '';
+  String shopAddress = '';
+  String shopName = '';
+  String panNumber = '';
+  String aadharNumber = '';
+
+  Future<void> initiateAgent(
+    String firstName,
+    String lastName,
+    String shopAddress,
+    String city,
+    String state,
+    String pincode,
+    String shopName,
+    String mobile,
+    String dob,
+    String gender,
+    String pan,
+    String email,
+    String aadhaar,
+  ) async {
+    final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
+    BankKycResponseModel? bankKycResponseModel = await bankKycProvider.initiateAgent(
+      firstName,
+      lastName,
+      shopAddress,
+      city,
+      state,
+      pincode,
+      shopName,
+      mobile,
+      dob,
+      gender,
+      pan,
+      aadhaar,
+      email,
+    );
+
+    Logger().i(bankKycResponseModel.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
         title: const Text('Bank KYC'),
         backgroundColor: Colors.indigo.shade400,
       ),
-      body: Column(
-        children: [
-          Container(
-            color: Colors.grey.shade200,
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Personal Details'),
-                Icon(
-                  Icons.double_arrow_rounded,
-                  size: 16,
-                ),
-                Text('ID Proof'),
-                Icon(
-                  Icons.double_arrow_rounded,
-                  size: 16,
-                ),
-                Text('Bank Details'),
-              ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            const DateRangePicker(),
+            Container(
+              color: Colors.grey.shade200,
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Text('Personal Details'),
+                  Icon(
+                    Icons.double_arrow_rounded,
+                    size: 16,
+                  ),
+                  Text('ID Proof'),
+                  Icon(
+                    Icons.double_arrow_rounded,
+                    size: 16,
+                  ),
+                  Text('Bank Details'),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'First Name',
-                  keyboardType: TextInputType.text,
-                ),
+            const SizedBox(
+              height: 16,
+            ),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'First Name',
+                          keyboardType: TextInputType.text,
+                          controller: firstNameController,
+                          onChange: (value) {
+                            if (value.isNotEmpty) {
+                              Logger().i(value);
+                              setState(() {
+                                firstName = value;
+                              });
+                            }
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'Last Name',
+                          keyboardType: TextInputType.text,
+                          controller: lastNameController,
+                          onChange: (value) {
+                            setState(() {
+                              lastName = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'Date of Birth',
+                          keyboardType: TextInputType.text,
+                          controller: dateOfBirthController,
+                          onChange: (value) {
+                            setState(() {
+                              dateOfBirth = value;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomDropdownWidget(
+                          list: const ['Male', "Female", "Other"],
+                          onChanged: (value){
+                            setState(() {
+                              gender = value!;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'City',
+                          keyboardType: TextInputType.text,
+                          controller: cityController,
+                          onChange: (value) {
+                            setState(() {
+                              city = value;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'State',
+                          keyboardType: TextInputType.text,
+                          controller: stateController,
+                          onChange: (value) {
+                            setState(() {
+                              state = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'Mobile',
+                          keyboardType: TextInputType.text,
+                          controller: mobileController,
+                          onChange: (value) {
+                            setState(() {
+                              mobile = value;
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: screenWidth * 0.5,
+                        child: CustomTextFormField(
+                          labelText: 'Pincode',
+                          keyboardType: TextInputType.text,
+                          controller: pinCodeController,
+                          onChange: (value) {
+                            setState(() {
+                              pincode = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Email Address',
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                    onChange: (value) {
+                      setState(() {
+                        email = value;
+                      });
+                    },
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Shop Address',
+                    keyboardType: TextInputType.multiline,
+                    controller: shopAddressController,
+                    onChange: (value) {
+                      setState(() {
+                        shopAddress = value;
+                      });
+                    },
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Shop Name',
+                    keyboardType: TextInputType.text,
+                    controller: shopNameController,
+                    onChange: (value) {
+                      setState(() {
+                        shopName = value;
+                      });
+                    },
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Pan Number',
+                    keyboardType: TextInputType.text,
+                    controller: panNumberController,
+                    onChange: (value) {
+                      setState(() {
+                        panNumber = value;
+                      });
+                    },
+                  ),
+                  CustomTextFormField(
+                    labelText: 'Aadhar Number',
+                    keyboardType: TextInputType.text,
+                    controller: aadharNumberController,
+                    onChange: (value) {
+                      setState(() {
+                        aadharNumber = value;
+                      });
+                    },
+                  ),
+                  CustomCtaButton(
+                    label: 'Submit',
+                    onTap: () {
+                      bool validate = _formKey.currentState!.validate();
+                      if (validate) {
+                        initiateAgent(
+                          firstName,
+                          lastName,
+                          shopAddress,
+                          city,
+                          state,
+                          pincode,
+                          shopName,
+                          mobile,
+                          dateOfBirth,
+                          gender,
+                          panNumber,
+                          email,
+                          aadharNumber,
+                        );
+                      }
+                    },
+                  ),
+                ],
               ),
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'Last Name',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'Date of Birth',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'Gender',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'City',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'State',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'Mobile',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              SizedBox(
-                width: screenWidth * 0.5,
-                child: const CustomTextFormField(
-                  labelText: 'Pincode',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
-          ),
-          const CustomTextFormField(
-            labelText: 'Email Address',
-            keyboardType: TextInputType.emailAddress,
-          ),
-          const CustomTextFormField(
-            labelText: 'Residential Address',
-            keyboardType: TextInputType.multiline,
-          ),
-          const CustomTextFormField(
-            labelText: 'Shop Name',
-            keyboardType: TextInputType.text,
-          ),
-          Row(
-            children: [
-              SizedBox(
-                width: screenWidth * 0.84,
-                child: const CustomTextFormField(
-                  labelText: 'Pan Number',
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              Container(
-                width: screenWidth * 0.12,
-                decoration: BoxDecoration(
-                  color: Colors.indigo.shade400,
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Icon(Icons.arrow_circle_right_rounded, color: Colors.grey.shade100,),
-                ),
-              ),
-            ],
-          ),
+            ),
 
-        ],
+            // Row(
+            //   children: [
+            //     SizedBox(
+            //       width: screenWidth * 0.84,
+            //       child: const CustomTextFormField(
+            //         labelText: 'Pan Number',
+            //         keyboardType: TextInputType.text,
+            //       ),
+            //     ),
+            //     Container(
+            //       width: screenWidth * 0.12,
+            //       decoration: BoxDecoration(
+            //         color: Colors.indigo.shade400,
+            //         borderRadius: BorderRadius.circular(10)
+            //       ),
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 12),
+            //         child: Icon(Icons.arrow_circle_right_rounded, color: Colors.grey.shade100,),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+          ],
+        ),
       ),
       // body: const StepperExample(),
     );
   }
 }
-
 
 class StepperExample extends StatefulWidget {
   const StepperExample({super.key});

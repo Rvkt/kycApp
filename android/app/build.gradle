@@ -25,6 +25,7 @@ if (flutterVersionName == null) {
 android {
     namespace "com.softmintindia.kyc_app"
     compileSdkVersion flutter.compileSdkVersion
+//    compileSdkVersion 34
     ndkVersion flutter.ndkVersion
 
     compileOptions {
@@ -50,6 +51,10 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
+
+//    configurations {
+//        all*.exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
+//    }
 
     buildTypes {
         release {

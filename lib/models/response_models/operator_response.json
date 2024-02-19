@@ -1,0 +1,58 @@
+{
+  "status": 1,
+  "message": "REPORT FETCHED SUCCESSFULLY!",
+  "errorMessage": null,
+  "size": null,
+  "report": [
+    {
+      "id": 1,
+      "operatorName": "MINI STATEMENT",
+      "operatorIncode": "AMS",
+      "operatorOutcode": "NSDLBANK",
+      "operatorProviderName": "NSDL BANK Ltd",
+      "serviceType": 1,
+      "apiId": 1,
+      "status": true
+    },
+    {
+      "id": 2,
+      "operatorName": "CASH WITHDRAWAL",
+      "operatorIncode": "ACW",
+      "operatorOutcode": "NSDLBANK",
+      "operatorProviderName": "NSDL BANK Ltd",
+      "serviceType": 1,
+      "apiId": 1,
+      "status": true
+    },
+    {
+      "id": 22,
+      "operatorName": "2FALOGIN",
+      "operatorIncode": "39",
+      "operatorOutcode": "2FALOGIN",
+      "operatorProviderName": "NSDL BANK Ltd",
+      "serviceType": 1,
+      "apiId": 1,
+      "status": true
+    },
+    {
+      "id": 4,
+      "operatorName": "NSDLKYC",
+      "operatorIncode": "KYC",
+      "operatorOutcode": "NSDLBANK",
+      "operatorProviderName": "NSDL PAYMENT BANK",
+      "serviceType": 1,
+      "apiId": 1,
+      "status": true
+    },
+    {
+      "id": 3,
+      "operatorName": "BALANCE ENQUIRY",
+      "operatorIncode": "ABE",
+      "operatorOutcode": "NSDLBANK",
+      "operatorProviderName": "NSDL BANK Ltd",
+      "serviceType": 1,
+      "apiId": 1,
+      "status": true
+    }
+  ]
+}
