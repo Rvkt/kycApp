@@ -39,5 +39,41 @@ String? validateEmail(String? value) {
   }
 }
 
+String? validatePinCode(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Pin code is required';
+  }
+  final RegExp pinCodeRegex = RegExp(r'^\d{6}$');
+  if (!pinCodeRegex.hasMatch(value)) {
+    return 'Enter a valid 6-digit pin code';
+  }
+  return null;
+}
+
+String? validatePanCard(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'PAN card number is required';
+  }
+  final RegExp panRegex = RegExp(r'^[A-Z]{5}[0-9]{4}[A-Z]{1}$');
+  if (!panRegex.hasMatch(value)) {
+    return 'Enter a valid PAN card number';
+  }
+  return null;
+}
+
+
+
+String? validateAadharNumber(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Aadhar number is required';
+  }
+  final RegExp aadharRegex = RegExp(r'^\d{12}$');
+  if (!aadharRegex.hasMatch(value)) {
+    return 'Enter a valid 12-digit Aadhar number';
+  }
+  return null;
+}
+
+
 
 

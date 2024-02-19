@@ -3,13 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:kyc_app/models/response_models/bank_kyc_response_model.dart';
 import 'package:kyc_app/providers/kyc_provider.dart';
+import 'package:kyc_app/utils/validators.dart';
 import 'package:kyc_app/widgets/custom_cta_button.dart';
 import 'package:kyc_app/widgets/custom_dropdown_widget.dart';
 import 'package:kyc_app/widgets/custom_text_form_field_widget.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
-import 'widgets/date_range_picker_widget.dart';
+import 'widgets/date_picker_widget.dart';
 
 class BankKycScreen extends StatefulWidget {
   const BankKycScreen({super.key});
@@ -98,7 +99,6 @@ class _BankKycScreenState extends State<BankKycScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const DateRangePicker(),
             Container(
               color: Colors.grey.shade200,
               padding: const EdgeInsets.symmetric(vertical: 16),
@@ -134,6 +134,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           labelText: 'First Name',
                           keyboardType: TextInputType.text,
                           controller: firstNameController,
+                          validator: validateName,
                           onChange: (value) {
                             if (value.isNotEmpty) {
                               Logger().i(value);
@@ -150,6 +151,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           labelText: 'Last Name',
                           keyboardType: TextInputType.text,
                           controller: lastNameController,
+                          validator: validateName,
                           onChange: (value) {
                             setState(() {
                               lastName = value;
@@ -159,17 +161,15 @@ class _BankKycScreenState extends State<BankKycScreen> {
                       ),
                     ],
                   ),
+
                   Row(
                     children: [
                       SizedBox(
                         width: screenWidth * 0.5,
-                        child: CustomTextFormField(
-                          labelText: 'Date of Birth',
-                          keyboardType: TextInputType.text,
-                          controller: dateOfBirthController,
-                          onChange: (value) {
+                        child: DatePicker(
+                          onDateSelected: (date) {
                             setState(() {
-                              dateOfBirth = value;
+                              dateOfBirth = date;
                             });
                           },
                         ),
@@ -178,7 +178,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                         width: screenWidth * 0.5,
                         child: CustomDropdownWidget(
                           list: const ['Male', "Female", "Other"],
-                          onChanged: (value){
+                          onChanged: (value) {
                             setState(() {
                               gender = value!;
                             });
@@ -225,6 +225,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           labelText: 'Mobile',
                           keyboardType: TextInputType.text,
                           controller: mobileController,
+                          validator: validateUsername,
                           onChange: (value) {
                             setState(() {
                               mobile = value;
@@ -236,8 +237,9 @@ class _BankKycScreenState extends State<BankKycScreen> {
                         width: screenWidth * 0.5,
                         child: CustomTextFormField(
                           labelText: 'Pincode',
-                          keyboardType: TextInputType.text,
+                          keyboardType: TextInputType.number,
                           controller: pinCodeController,
+                          validator: validatePinCode,
                           onChange: (value) {
                             setState(() {
                               pincode = value;
@@ -251,6 +253,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                     labelText: 'Email Address',
                     keyboardType: TextInputType.emailAddress,
                     controller: emailController,
+                    validator: validateEmail,
                     onChange: (value) {
                       setState(() {
                         email = value;
@@ -281,6 +284,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                     labelText: 'Pan Number',
                     keyboardType: TextInputType.text,
                     controller: panNumberController,
+                    validator: validatePanCard,
                     onChange: (value) {
                       setState(() {
                         panNumber = value;
@@ -289,8 +293,9 @@ class _BankKycScreenState extends State<BankKycScreen> {
                   ),
                   CustomTextFormField(
                     labelText: 'Aadhar Number',
-                    keyboardType: TextInputType.text,
+                    keyboardType: TextInputType.number,
                     controller: aadharNumberController,
+                    validator: validateAadharNumber,
                     onChange: (value) {
                       setState(() {
                         aadharNumber = value;
