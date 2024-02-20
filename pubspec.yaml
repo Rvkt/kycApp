@@ -17,6 +17,9 @@ dependencies:
   logger: ^2.0.2+1
   device_info_plus: ^9.1.2
   pinput: ^3.0.1
+  dropdown_search: ^5.0.6
+  searchable_paginated_dropdown: ^1.2.0
+  permission_handler: ^10.3.0
 
 dev_dependencies:
   flutter_test:

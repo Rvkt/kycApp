@@ -94,7 +94,7 @@ class MyApp extends StatelessWidget {
           create: (context) => BankKycProvider(),
         ),
       ],
-      child: MaterialApp(
+      child: const MaterialApp(
         // debugShowMaterialGrid: true,
         debugShowCheckedModeBanner: false,
         // title: 'Flutter Demo',

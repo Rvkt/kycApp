@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
-class MerchantDocumentsUploadScreen extends StatefulWidget {
-  const MerchantDocumentsUploadScreen({super.key});
+class MerchantDocumentsUploadScreen extends StatelessWidget {
+  MerchantDocumentsUploadScreen({super.key});
 
-  @override
-  State<MerchantDocumentsUploadScreen> createState() => _MerchantDocumentsUploadScreenState();
-}
-
-class _MerchantDocumentsUploadScreenState extends State<MerchantDocumentsUploadScreen> {
   bool checkBoxValue = false;
 
   @override

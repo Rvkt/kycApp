@@ -33,6 +33,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
   TextEditingController shopNameController = TextEditingController();
   TextEditingController panNumberController = TextEditingController();
   TextEditingController aadharNumberController = TextEditingController();
+  BankKycResponseModel? bankKycResponseModel;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -51,22 +52,24 @@ class _BankKycScreenState extends State<BankKycScreen> {
   String aadharNumber = '';
 
   Future<void> initiateAgent(
-    String firstName,
-    String lastName,
-    String shopAddress,
-    String city,
-    String state,
-    String pincode,
-    String shopName,
-    String mobile,
-    String dob,
-    String gender,
-    String pan,
-    String email,
-    String aadhaar,
-  ) async {
+      BuildContext context,
+      String firstName,
+      String lastName,
+      String shopAddress,
+      String city,
+      String state,
+      String pincode,
+      String shopName,
+      String mobile,
+      String dob,
+      String gender,
+      String pan,
+      String email,
+      String aadhaar,
+      ) async {
     final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
-    BankKycResponseModel? bankKycResponseModel = await bankKycProvider.initiateAgent(
+    await bankKycProvider.onboardAgent(
+      context,
       firstName,
       lastName,
       shopAddress,
@@ -78,12 +81,12 @@ class _BankKycScreenState extends State<BankKycScreen> {
       dob,
       gender,
       pan,
-      aadhaar,
       email,
+      aadhaar,
     );
-
-    Logger().i(bankKycResponseModel.toString());
+    Logger().i(bankKycProvider.bankKycResponseModel);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -308,6 +311,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                       bool validate = _formKey.currentState!.validate();
                       if (validate) {
                         initiateAgent(
+                          context,
                           firstName,
                           lastName,
                           shopAddress,

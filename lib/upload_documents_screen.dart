@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
+import 'package:permission_handler/permission_handler.dart';
+
+final MethodChannel _channel = MethodChannel('camera_channel');
 
 class KycDocumentsUploadScreen extends StatefulWidget {
   const KycDocumentsUploadScreen({super.key});
@@ -9,6 +14,14 @@ class KycDocumentsUploadScreen extends StatefulWidget {
 
 class _KycDocumentsUploadScreenState extends State<KycDocumentsUploadScreen> {
   bool checkBoxValue = false;
+
+  Future<void> openCamera() async {
+    try {
+      await _channel.invokeMethod('openCamera');
+    } on PlatformException catch (e) {
+      Logger().i("Failed to open camera: '${e.message}'.");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,23 +66,36 @@ your application.''',
           Card(
             child: Column(
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.grey.shade50,
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(
-                        Icons.image_rounded,
-                        size: 36,
-                      ),
-                      const Text('Upload Shop"s Image', style: TextStyle(fontWeight: FontWeight.w500),),
-                      Icon(Icons.check_circle, color: Colors.lightGreenAccent.shade700,)
-                    ],
+                InkWell(
+                  // onTap: () {
+                  //   CameraHandler.openCamera().catchError((error) {
+                  //     Logger().i("Failed to open camera: '$error'.");
+                  //   });
+                  // },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.grey.shade50,
+                    ),
+                    margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Icon(
+                          Icons.image_rounded,
+                          size: 36,
+                        ),
+                        const Text(
+                          'Upload Shop"s Image',
+                          style: TextStyle(fontWeight: FontWeight.w500),
+                        ),
+                        Icon(
+                          Icons.check_circle,
+                          color: Colors.lightGreenAccent.shade700,
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 Container(
@@ -86,8 +112,14 @@ your application.''',
                         Icons.image_rounded,
                         size: 36,
                       ),
-                      const Text('Upload Your Image', style: TextStyle(fontWeight: FontWeight.w500),),
-                      Icon(Icons.upload, color: Colors.black54,)
+                      const Text(
+                        'Upload Your Image',
+                        style: TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      Icon(
+                        Icons.upload,
+                        color: Colors.black54,
+                      )
                     ],
                   ),
                 ),
@@ -122,3 +154,16 @@ your application.''',
     );
   }
 }
+
+// class CameraHandler {
+//   static const MethodChannel _channel = MethodChannel('camera_handler');
+//
+//   static Future<void> openCamera() async {
+//     try {
+//       await _channel.invokeMethod('openCamera');
+//     } on PlatformException catch (e) {
+//       Logger().i("Failed to open camera: '${e.message}'.");
+//     }
+//   }
+// }
+

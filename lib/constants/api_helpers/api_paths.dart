@@ -56,6 +56,7 @@ class APIUrl {
 
 
 
-  static String initiateAgent = '$_baseUrl${Endpoints.initiateAgent}';
-  static String otpCreation = '$_baseUrl${Endpoints.otpCreation}';
+  static String yesInitiateAgent = '$_baseUrl${Endpoints.yesInitiateAgent}';
+  static String yesOtpCreation = '$_baseUrl${Endpoints.yesOtpCreation}';
+  static String yesBiometricKyc = '$_baseUrl${Endpoints.yesBiometricKyc}';
 }

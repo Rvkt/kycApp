@@ -21,44 +21,6 @@ class GenerateRequest {
     return jsonString;
   }
 
-  static String initiateAgent({
-    String operatorIncode = "YPN",
-    required String firstName,
-    required String lastName,
-    required String shopAddress,
-    required String city,
-    required String state,
-    required String pincode,
-    required String shopName,
-    required String mobile,
-    required String dob,
-    required String gender,
-    required String pan,
-    required String email,
-    required String aadhaar,
-  }) {
-    Map<String, dynamic> requestMap = {
-
-      'operatorIncode': operatorIncode,
-      'firstName': firstName,
-      'lastName': lastName,
-      'shopAddress': shopAddress,
-      'city': city,
-      'state': state,
-      'pincode': pincode,
-      'shopName': shopName,
-      'mobile': mobile,
-      'dob': dob,
-      'gender': gender,
-      'pan': pan,
-      'email': email,
-      'aadhaar': aadhaar,
-    };
-    // Convert the map to a JSON string
-    String jsonString = jsonEncode(requestMap);
-    return jsonString;
-  }
-
   static String operatorIncode({
     required String operatorIncode,
     required String biometricData,
@@ -403,5 +365,84 @@ class GenerateRequest {
       'cn': cn,
       'amount': amount,
     });
+  }
+
+  static String yesInitiateAgent({
+    String operatorIncode = "YPN",
+    required String firstName,
+    required String lastName,
+    required String shopAddress,
+    required String city,
+    required String state,
+    required String pincode,
+    required String shopName,
+    required String mobile,
+    required String dob,
+    required String gender,
+    required String pan,
+    required String email,
+    required String aadhaar,
+  }) {
+    Map<String, dynamic> requestMap = {
+      'operatorIncode': operatorIncode,
+      'firstName': firstName,
+      'lastName': lastName,
+      'shopAddress': shopAddress,
+      'city': city,
+      'state': state,
+      'pincode': pincode,
+      'shopName': shopName,
+      'mobile': mobile,
+      'dob': dob,
+      'gender': gender,
+      'pan': pan,
+      'email': email,
+      'aadhaar': aadhaar,
+    };
+    // Convert the map to a JSON string
+    String jsonString = jsonEncode(requestMap);
+    return jsonString;
+  }
+
+  static String yesOtpCreation({
+    String operatorIncode = "YPN",
+    required String mobile,
+    required String otp_token,
+    required String otp,
+    required String agent_id,
+  }) {
+    Map<String, dynamic> requestMap = {
+      'operatorIncode': operatorIncode,
+      'mobile': mobile,
+      'otp_token': otp_token,
+      'otp': otp,
+      'agent_id': agent_id,
+    };
+    // Convert the map to a JSON string
+    String jsonString = jsonEncode(requestMap);
+    return jsonString;
+  }
+
+  static String yesBiometricKyc({
+    String operatorIncode = "YPN",
+    required String mobile,
+    required String agent_id,
+    required String aadhaar,
+    required String BiometricData,
+    required String kyc_token,
+    required String wadh,
+  }) {
+    Map<String, dynamic> requestMap = {
+      'operatorIncode': operatorIncode,
+      'mobile': mobile,
+      'agent_id': agent_id,
+      'aadhaar': aadhaar,
+      'BiometricData': BiometricData,
+      'kyc_token': kyc_token,
+      'wadh': wadh,
+    };
+    // Convert the map to a JSON string
+    String jsonString = jsonEncode(requestMap);
+    return jsonString;
   }
 }

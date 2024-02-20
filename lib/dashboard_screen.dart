@@ -110,8 +110,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 InkWell(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> const BankKycScreen()));
+                  onTap: () {
+                    // Logger().i(message),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const BankKycScreen(),
+                      ),
+                    );
                   },
                   child: Container(
                     width: screenWidth * .45,

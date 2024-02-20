@@ -53,7 +53,8 @@ class Endpoints {
 
   static String fetchDthRechargeOperators = 'operator/fetchOperatorByService/5';
 
-  static String initiateAgent = 'yes/initiateagent';
-  static String otpCreation = 'yes/otpcreation';
+  static String yesInitiateAgent = 'yes/initiateagent';
+  static String yesOtpCreation = 'yes/otpcreation';
+  static String yesBiometricKyc = 'yes/biometrickyc';
 
 }

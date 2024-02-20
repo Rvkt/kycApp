@@ -1,29 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:kyc_app/models/response_models/login_response.dart';
 import 'package:kyc_app/providers/auth_provider.dart';
+import 'package:kyc_app/providers/kyc_provider.dart';
 import 'package:kyc_app/widgets/custom_cta_button.dart';
 import 'package:logger/logger.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
-class OtpVerificationScreen extends StatefulWidget {
+class BankKycOtpVerificationScreen extends StatefulWidget {
+  final String message;
   final String mobile;
-  final String password;
+  final String otpToken;
+  final String agentId;
 
-  const OtpVerificationScreen({
+  const BankKycOtpVerificationScreen({
     super.key,
+    required this.message,
     required this.mobile,
-    required this.password,
+    required this.otpToken,
+    required this.agentId,
   });
 
   @override
-  State<OtpVerificationScreen> createState() => _OtpVerificationScreenState();
+  State<BankKycOtpVerificationScreen> createState() => _BankKycOtpVerificationScreenState();
 }
 
-class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
+class _BankKycOtpVerificationScreenState extends State<BankKycOtpVerificationScreen> {
   String otp = '';
+
   // late String username;
   // late String password;
+
+  Future<void> validateMerchantBiometric(
+    BuildContext context,
+    String mobile,
+    String otpToken,
+    String agentId,
+  ) async {
+    final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
+    await bankKycProvider.otpCreation(context, mobile, otpToken, otp, agentId);
+    Logger().i(bankKycProvider.yesOtpCreationResponseModel);
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -31,7 +49,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
     final defaultPinTheme = PinTheme(
       width: 50,
       height: 60,
-      margin: EdgeInsets.symmetric(horizontal: 4),
+      margin: const EdgeInsets.symmetric(horizontal: 4),
       textStyle: const TextStyle(
         fontSize: 22,
         color: Colors.black,
@@ -56,7 +74,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           Container(
             padding: const EdgeInsets.all(16),
             child: const Text(
-              'OTP Verification',
+              'Bank Kyc Otp Verification',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24,
@@ -64,11 +82,12 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(bottom: 24),
+            margin: const EdgeInsets.only(bottom: 36, left: 36, right: 36, top: 16),
             child: Text(
-              '+91 ${widget.mobile}',
+              widget.message,
+              textAlign: TextAlign.center,
               style: const TextStyle(
-                color: Colors.black,
+                color: Colors.black45,
                 fontSize: 20,
               ),
             ),
@@ -114,15 +133,19 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
           //   ),
           // ),
           const Spacer(),
-          CustomCtaButton(label: 'Verify', onTap: () => verifyUser(context, widget.mobile, widget.password, otp)),
+          CustomCtaButton(
+            label: 'Verify',
+            onTap: () {
+              validateMerchantBiometric(
+                context,
+                widget.mobile,
+                widget.otpToken,
+                widget.agentId,
+              );
+            },
+          ),
         ],
       ),
     );
-  }
-
-  void verifyUser(BuildContext context, String mobile, String password, String otp) async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    LoginResponse? loginResponse = await authProvider.validateUserOtp(context, mobile, password, otp);
-    Logger().i(loginResponse);
   }
 }
