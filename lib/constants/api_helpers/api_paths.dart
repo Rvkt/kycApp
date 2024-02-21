@@ -1,8 +1,8 @@
 import 'endpoints.dart';
 
 class APIUrl {
-  // static const String _baseUrl = "https://m.softmintindia.com/";
-  static const String _baseUrl = "http://192.168.1.23:8765/";
+  static const String _baseUrl = "https://m.softmintindia.com/";
+  // static const String _baseUrl = "http://192.168.1.23:8765/";
 
 
   static String authenticateUser = "$_baseUrl${Endpoints.authenticateUser}";

@@ -12,6 +12,7 @@ import 'package:kyc_app/network/generate_request.dart';
 import 'package:kyc_app/network/network_post_call.dart';
 import 'package:kyc_app/network/network_response.dart';
 import 'package:kyc_app/success_screen.dart';
+import 'package:kyc_app/upload_documents_screen.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -137,7 +138,7 @@ class BankKycProvider extends ChangeNotifier {
       Logger().w(body.toString());
       // Logger().i(networkResponse.data);
 
-      Map<dynamic, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');
+      Map<String, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');
       Logger().i(networkResponseData);
 
       if (networkResponse.data != null) {
@@ -150,17 +151,22 @@ class BankKycProvider extends ChangeNotifier {
           String status = responseModel.status;
           // String message = responseModel.responseMessage;
 
-          if (status == 'SUCCESS') {
-            Logger().i('Proceed To MerchantFingerCaptureScreen');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MerchantFingerCaptureScreen(mobile: mobile, agentId: agentId, kycToken: responseModel.kycToken,),
-              ),
-            );
-          }
-        } else {
-          Logger().e('OtpWadh key not found in network response data');
+        //   if (status == 'SUCCESS') {
+        //     Logger().i('Proceed To MerchantFingerCaptureScreen');
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => MerchantFingerCaptureScreen(
+        //           mobile: mobile,
+        //           agentId: agentId,
+        //           kycToken: responseModel.kycToken,
+        //           wadh: responseModel.wadh,
+        //         ),
+        //       ),
+        //     );
+        //   }
+        // } else {
+        //   Logger().e('OtpWadh key not found in network response data');
         }
       } else {
         Logger().e('Network response data is null');
@@ -202,7 +208,7 @@ class BankKycProvider extends ChangeNotifier {
       Logger().w(body.toString());
       Logger().i(networkResponse.data);
 
-      Map<dynamic, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');
+      Map<String, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');
       Logger().i(networkResponseData);
 
       if (networkResponse.data != null) {
@@ -212,20 +218,20 @@ class BankKycProvider extends ChangeNotifier {
           YesBiometricKycResponseModel responseModel = YesBiometricKycResponseModel.fromJson(networkResponseData['BiometricKyc']);
           setYesBiometricKycResponseModel(responseModel);
 
-          String status = responseModel.status;
-          // String message = responseModel.responseMessage;
-
-          if (status == 'SUCCESS') {
-            Logger().i('Proceed To OTP Screen');
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MerchantDocumentsUploadScreen(),
-              ),
-            );
-          }
+          // String status = responseModel.status;
+          // // String message = responseModel.responseMessage;
+          //
+          // if (status == 'SUCCESS') {
+          //   Logger().i('Proceed To KycDocumentsUpload Screen');
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //       builder: (context) => KycDocumentsUploadScreen(),
+          //     ),
+          //   );
+          // }
         } else {
-          Logger().e('OtpWadh key not found in network response data');
+          Logger().e('BiometricKyc key not found in network response data');
         }
       } else {
         Logger().e('Network response data is null');

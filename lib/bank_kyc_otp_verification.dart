@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyc_app/merchant_finger_capture_screen.dart';
 import 'package:kyc_app/models/response_models/login_response.dart';
 import 'package:kyc_app/providers/auth_provider.dart';
 import 'package:kyc_app/providers/kyc_provider.dart';
@@ -6,6 +7,8 @@ import 'package:kyc_app/widgets/custom_cta_button.dart';
 import 'package:logger/logger.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
+
+import 'models/response_models/yes_otp_creation_response_model.dart';
 
 class BankKycOtpVerificationScreen extends StatefulWidget {
   final String message;
@@ -31,15 +34,32 @@ class _BankKycOtpVerificationScreenState extends State<BankKycOtpVerificationScr
   // late String username;
   // late String password;
 
-  Future<void> validateMerchantBiometric(
+  Future<void> validateAgentOtp(
     BuildContext context,
     String mobile,
     String otpToken,
     String agentId,
   ) async {
     final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
-    await bankKycProvider.otpCreation(context, mobile, otpToken, otp, agentId);
-    Logger().i(bankKycProvider.yesOtpCreationResponseModel);
+    await bankKycProvider.otpCreation(context, widget.mobile, widget.otpToken, otp, widget.agentId);
+    YesOtpCreationResponseModel? yesOtpCreationResponseModel = bankKycProvider.yesOtpCreationResponseModel;
+    // Logger().i(bankKycProvider.yesOtpCreationResponseModel);
+    String? status = yesOtpCreationResponseModel?.status;
+
+    if (status == "SUCCESS") {
+      Logger().i('Proceed to merchant finger capture screen');
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MerchantFingerCaptureScreen(
+            mobile: mobile,
+            agentId: agentId,
+            kycToken: yesOtpCreationResponseModel!.kycToken,
+            wadh: yesOtpCreationResponseModel.wadh,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -136,7 +156,7 @@ class _BankKycOtpVerificationScreenState extends State<BankKycOtpVerificationScr
           CustomCtaButton(
             label: 'Verify',
             onTap: () {
-              validateMerchantBiometric(
+              validateAgentOtp(
                 context,
                 widget.mobile,
                 widget.otpToken,

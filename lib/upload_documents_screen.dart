@@ -15,6 +15,8 @@ class KycDocumentsUploadScreen extends StatefulWidget {
 class _KycDocumentsUploadScreenState extends State<KycDocumentsUploadScreen> {
   bool checkBoxValue = false;
 
+
+
   Future<void> openCamera() async {
     try {
       await _channel.invokeMethod('openCamera');
@@ -22,6 +24,8 @@ class _KycDocumentsUploadScreenState extends State<KycDocumentsUploadScreen> {
       Logger().i("Failed to open camera: '${e.message}'.");
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
