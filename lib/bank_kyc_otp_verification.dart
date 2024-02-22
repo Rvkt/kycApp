@@ -85,24 +85,21 @@ class _BankKycOtpVerificationScreenState extends State<BankKycOtpVerificationScr
         children: [
           Container(
             // alignment: const Alignment(0, 0),
-            padding: const EdgeInsets.symmetric(vertical: 48),
+            padding: EdgeInsets.symmetric(vertical: screenHeight * 0.05),
             child: Image.asset(
               'assets/logo/logo.png',
               width: screenWidth * 0.6,
             ),
           ),
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: const Text(
-              'Bank Kyc Otp Verification',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
+          const Text(
+            'Bank Kyc Otp Verification',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
             ),
           ),
           Container(
-            margin: const EdgeInsets.only(bottom: 36, left: 36, right: 36, top: 16),
+            margin: EdgeInsets.symmetric(vertical: screenHeight * 0.04),
             child: Text(
               widget.message,
               textAlign: TextAlign.center,
@@ -128,9 +125,9 @@ class _BankKycOtpVerificationScreenState extends State<BankKycOtpVerificationScr
               });
             },
           ),
-          const SizedBox(
-            height: 54,
-          ),
+          // const SizedBox(
+          //   height: 54,
+          // ),
           // Container(
           //   constraints: BoxConstraints(maxHeight: screenHeight * 0.08, maxWidth: screenWidth),
           //   child: ListView.builder(

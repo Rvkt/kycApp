@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -29,6 +30,61 @@ class NetworkCall {
     } catch (e) {
       log(e.toString(), name: 'Network Post Call');
       // logger.shout(e.toString());
+      networkResponse = NetworkResponse(
+        status: false,
+        errorMessage: e.toString(),
+      );
+    }
+    return networkResponse;
+  }
+
+  static multipartRequest({
+    required String url,
+    required Map<String, String> headers,
+    required Map<String, dynamic> fields,
+    required List<File> files,
+  }) async {
+    NetworkResponse networkResponse = NetworkResponse();
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(url));
+      request.headers.addAll(headers);
+
+      // Add fields
+      fields.forEach((key, value) {
+        request.fields[key] = value.toString();
+      });
+
+      // Add files
+      for (var file in files) {
+        var fileStream = http.ByteStream(file.openRead());
+        var fileLength = await file.length();
+
+        var multipartFile = http.MultipartFile(
+          'file',
+          fileStream,
+          fileLength,
+          filename: file.path.split('/').last,
+        );
+
+        request.files.add(multipartFile);
+      }
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        networkResponse = NetworkResponse(
+          status: true,
+          data: response.body,
+        );
+      } else {
+        networkResponse = NetworkResponse(
+          status: false,
+          data: response.body,
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
       networkResponse = NetworkResponse(
         status: false,
         errorMessage: e.toString(),

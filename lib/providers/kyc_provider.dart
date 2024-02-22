@@ -12,7 +12,7 @@ import 'package:kyc_app/network/generate_request.dart';
 import 'package:kyc_app/network/network_post_call.dart';
 import 'package:kyc_app/network/network_response.dart';
 import 'package:kyc_app/success_screen.dart';
-import 'package:kyc_app/upload_documents_screen.dart';
+import 'package:kyc_app/shop_verification_screen_via_image.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
@@ -206,7 +206,7 @@ class BankKycProvider extends ChangeNotifier {
       );
 
       Logger().w(body.toString());
-      Logger().i(networkResponse.data);
+      // Logger().i(networkResponse.data);
 
       Map<String, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');
       Logger().i(networkResponseData);

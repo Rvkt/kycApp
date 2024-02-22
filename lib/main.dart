@@ -13,7 +13,7 @@ import 'package:kyc_app/otp_verification_screen.dart';
 import 'package:kyc_app/providers/kyc_provider.dart';
 import 'package:kyc_app/providers/user_provider.dart';
 import 'package:kyc_app/thank_you_screen.dart';
-import 'package:kyc_app/upload_documents_screen.dart';
+import 'package:kyc_app/shop_verification_screen_via_image.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

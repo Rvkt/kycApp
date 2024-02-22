@@ -52,21 +52,21 @@ class _BankKycScreenState extends State<BankKycScreen> {
   String aadharNumber = '';
 
   Future<void> initiateAgent(
-      BuildContext context,
-      String firstName,
-      String lastName,
-      String shopAddress,
-      String city,
-      String state,
-      String pincode,
-      String shopName,
-      String mobile,
-      String dob,
-      String gender,
-      String pan,
-      String email,
-      String aadhaar,
-      ) async {
+    BuildContext context,
+    String firstName,
+    String lastName,
+    String shopAddress,
+    String city,
+    String state,
+    String pincode,
+    String shopName,
+    String mobile,
+    String dob,
+    String gender,
+    String pan,
+    String email,
+    String aadhaar,
+  ) async {
     final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
     await bankKycProvider.onboardAgent(
       context,
@@ -86,7 +86,6 @@ class _BankKycScreenState extends State<BankKycScreen> {
     );
     Logger().i(bankKycProvider.bankKycResponseModel);
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +163,6 @@ class _BankKycScreenState extends State<BankKycScreen> {
                       ),
                     ],
                   ),
-
                   Row(
                     children: [
                       SizedBox(
@@ -199,9 +197,14 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           keyboardType: TextInputType.text,
                           controller: cityController,
                           onChange: (value) {
-                            setState(() {
-                              city = value;
-                            });
+                            if (value.length == 48) {
+                              Logger().i(value);
+                              setState(() {
+                                city = value;
+                              });
+                              FocusScope.of(context).nextFocus();
+                              // FocusScope.of(context).dispose();
+                            }
                           },
                         ),
                       ),
@@ -212,9 +215,14 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           keyboardType: TextInputType.text,
                           controller: stateController,
                           onChange: (value) {
-                            setState(() {
-                              state = value;
-                            });
+                            if (value.length == 48) {
+                              Logger().i(value);
+                              setState(() {
+                                state = value;
+                              });
+                              FocusScope.of(context).nextFocus();
+                              // FocusScope.of(context).dispose();
+                            }
                           },
                         ),
                       ),
@@ -230,9 +238,14 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           controller: mobileController,
                           validator: validateUsername,
                           onChange: (value) {
-                            setState(() {
-                              mobile = value;
-                            });
+                            if (value.length == 10) {
+                              Logger().i(value);
+                              setState(() {
+                                mobile = value;
+                              });
+                              FocusScope.of(context).nextFocus();
+                              // FocusScope.of(context).dispose();
+                            }
                           },
                         ),
                       ),
@@ -244,9 +257,14 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           controller: pinCodeController,
                           validator: validatePinCode,
                           onChange: (value) {
-                            setState(() {
-                              pincode = value;
-                            });
+                            if (value.length == 6) {
+                              Logger().i(value);
+                              setState(() {
+                                pincode = value;
+                              });
+                              FocusScope.of(context).nextFocus();
+                              // FocusScope.of(context).dispose();
+                            }
                           },
                         ),
                       ),
@@ -289,9 +307,13 @@ class _BankKycScreenState extends State<BankKycScreen> {
                     controller: panNumberController,
                     validator: validatePanCard,
                     onChange: (value) {
-                      setState(() {
-                        panNumber = value;
-                      });
+                      if (value.length == 10) {
+                        Logger().i(value);
+                        setState(() {
+                          panNumber = value;
+                        });
+                        FocusScope.of(context).nextFocus();
+                      }
                     },
                   ),
                   CustomTextFormField(
@@ -300,9 +322,13 @@ class _BankKycScreenState extends State<BankKycScreen> {
                     controller: aadharNumberController,
                     validator: validateAadharNumber,
                     onChange: (value) {
-                      setState(() {
-                        aadharNumber = value;
-                      });
+                      if (value.length == 12) {
+                        Logger().i(value);
+                        setState(() {
+                          aadharNumber = value;
+                        });
+                        FocusScope.of(context).nextFocus();
+                      }
                     },
                   ),
                   CustomCtaButton(

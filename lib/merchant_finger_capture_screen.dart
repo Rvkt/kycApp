@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_app/models/response_models/yes_biometric_kyc_response_model.dart';
 import 'package:kyc_app/providers/kyc_provider.dart';
+import 'package:kyc_app/shop_verification_screen_via_image.dart';
 import 'package:kyc_app/utils/validators.dart';
 import 'package:kyc_app/widgets/custom_cta_button.dart';
 import 'package:kyc_app/widgets/custom_dropdown_search_field_widget.dart';
@@ -20,7 +22,13 @@ class MerchantFingerCaptureScreen extends StatefulWidget {
   // final String aadhar;
   final String kycToken;
 
-  const MerchantFingerCaptureScreen({super.key, required this.mobile, required this.agentId, required this.kycToken, required this.wadh});
+  const MerchantFingerCaptureScreen({
+    super.key,
+    required this.mobile,
+    required this.agentId,
+    required this.kycToken,
+    required this.wadh,
+  });
 
   @override
   State<MerchantFingerCaptureScreen> createState() => _MerchantFingerCaptureScreenState();
@@ -32,11 +40,23 @@ class _MerchantFingerCaptureScreenState extends State<MerchantFingerCaptureScree
   // String wadh = '';
   String selectedDevice = '';
 
-  // moveToUpload(BuildContext context, String mobile, String agentId, String aadhar, String biometricData, String kycToken, String wadh) async {
-  //   final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
-  //   await bankKycProvider.yesBiometricKyc(context, mobile, agentId, aadhar, biometricData, kycToken, wadh);
-  //   Logger().i(bankKycProvider.yesBiometricKycResponseModel);
-  // }
+  moveToUpload(BuildContext context, String mobile, String agentId, String aadhar, String biometricData, String kycToken, String wadh) async {
+    final bankKycProvider = Provider.of<BankKycProvider>(context, listen: false);
+    await bankKycProvider.yesBiometricKyc(context, mobile, agentId, aadhar, biometricData, kycToken, wadh);
+    YesBiometricKycResponseModel? yesBiometricKycResponseModel = bankKycProvider.yesBiometricKycResponseModel;
+    Logger().i(bankKycProvider.yesBiometricKycResponseModel);
+
+    String status = yesBiometricKycResponseModel!.status;
+
+    if (status == 'SUCCESS') {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ShopVerificationScreen(),
+        ),
+      );
+    }
+  }
 
   final List<Map<String, dynamic>> devicesMap = [
     {'value': 'com.acpl.registersdk', 'label': 'Startek'},
@@ -135,7 +155,7 @@ class _MerchantFingerCaptureScreenState extends State<MerchantFingerCaptureScree
               'Merchant Finger Capture',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 20,
               ),
             ),
           ),
@@ -167,18 +187,19 @@ class _MerchantFingerCaptureScreenState extends State<MerchantFingerCaptureScree
           const Spacer(),
 
           CustomCtaButton(
-            label: 'Proceed',
-            // BuildContext context, String mobile, String agentId, String aadhar, String biometricData, String kycToken, String wadh
-            // onTap: moveToUpload(
-            //   context,
-            //   widget.mobile,
-            //   widget.agentId,
-            //   aadharController.text.trim(),
-            //   biometricData,
-            //   widget.kycToken,
-            //   widget.wadh,
-            // ),
-          ),
+              label: 'Proceed',
+              // BuildContext context, String mobile, String agentId, String aadhar, String biometricData, String kycToken, String wadh
+              onTap: () {
+                moveToUpload(
+                  context,
+                  widget.mobile,
+                  widget.agentId,
+                  aadharController.text.trim(),
+                  biometricData,
+                  widget.kycToken,
+                  widget.wadh,
+                );
+              }),
 
           // Container(
           //   margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),

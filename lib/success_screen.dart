@@ -8,7 +8,7 @@ import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 
 import 'models/response_models/yes_otp_creation_response_model.dart';
-import 'upload_documents_screen.dart';
+import 'shop_verification_screen_via_image.dart';
 
 class SuccessScreen extends StatefulWidget {
   final String message;
@@ -76,7 +76,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const KycDocumentsUploadScreen(),
+                  builder: (context) => MerchantDocumentsUploadScreen(shopImageFilePath: '', userImageFilePath: '',),
                 ),
               );
             },

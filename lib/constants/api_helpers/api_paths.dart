@@ -1,8 +1,8 @@
 import 'endpoints.dart';
 
 class APIUrl {
-  static const String _baseUrl = "https://m.softmintindia.com/";
-  // static const String _baseUrl = "http://192.168.1.23:8765/";
+  // static const String _baseUrl = "https://m.softmintindia.com/";
+  static const String _baseUrl = "http://192.168.1.23:8765/";
 
 
   static String authenticateUser = "$_baseUrl${Endpoints.authenticateUser}";
@@ -59,4 +59,8 @@ class APIUrl {
   static String yesInitiateAgent = '$_baseUrl${Endpoints.yesInitiateAgent}';
   static String yesOtpCreation = '$_baseUrl${Endpoints.yesOtpCreation}';
   static String yesBiometricKyc = '$_baseUrl${Endpoints.yesBiometricKyc}';
+  static String yesKycDocumentUpload = '$_baseUrl${Endpoints.yesKycDocumentUpload}';
+
+
+
 }

@@ -56,5 +56,6 @@ class Endpoints {
   static String yesInitiateAgent = 'yes/initiateagent';
   static String yesOtpCreation = 'yes/otpcreation';
   static String yesBiometricKyc = 'yes/biometrickyc';
+  static String yesKycDocumentUpload = 'yeskyc/documentupload';
 
 }

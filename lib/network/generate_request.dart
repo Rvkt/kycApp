@@ -445,4 +445,5 @@ class GenerateRequest {
     String jsonString = jsonEncode(requestMap);
     return jsonString;
   }
+
 }

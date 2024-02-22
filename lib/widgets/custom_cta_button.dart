@@ -8,6 +8,7 @@ class CustomCtaButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      splashColor: Colors.grey.shade100,
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
