@@ -26,7 +26,7 @@ class _DatePickerState extends State<DatePicker> {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
       initialDate: currentDate,
-      firstDate: DateTime(2022),
+      firstDate: DateTime(1950),
       lastDate: currentDate,
     );
 
@@ -36,7 +36,7 @@ class _DatePickerState extends State<DatePicker> {
       });
 
       // Format date as 'yyyy-MM-dd'
-      String formattedDate = '${picked!.day.toString().padLeft(2, '0')}-${picked!.month.toString().padLeft(2, '0')}-${picked!.year}';
+      String formattedDate = '${picked!.day.toString().padLeft(2, '0')}/${picked!.month.toString().padLeft(2, '0')}/${picked!.year}';
       Logger().i(formattedDate);
       // Pass formatted date to the callback function
       widget.onDateSelected?.call(formattedDate);

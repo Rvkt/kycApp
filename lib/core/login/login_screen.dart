@@ -18,8 +18,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoginButtonDisabled = false;
-  TextEditingController mobileController = TextEditingController(text: '8860733786');
-  TextEditingController passwordController = TextEditingController(text: 'O79IKA');
+  TextEditingController mobileController = TextEditingController(text: '8920209759');
+  TextEditingController passwordController = TextEditingController(text: 'IJ661S');
 
   bool checkBoxValue = false;
 

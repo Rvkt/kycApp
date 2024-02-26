@@ -73,12 +73,12 @@ class _SuccessScreenState extends State<SuccessScreen> {
           CustomCtaButton(
             label: "Let's Go",
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MerchantDocumentsUploadScreen(shopImageFilePath: '', userImageFilePath: '',),
-                ),
-              );
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => MerchantDocumentsUploadScreen(),
+              //   ),
+              // );
             },
           ),
           // Container(

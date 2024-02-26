@@ -205,7 +205,7 @@ class BankKycProvider extends ChangeNotifier {
         body: body,
       );
 
-      Logger().w(body.toString());
+      Logger().i(body.toString());
       // Logger().i(networkResponse.data);
 
       Map<String, dynamic> networkResponseData = jsonDecode(networkResponse.data ?? '');

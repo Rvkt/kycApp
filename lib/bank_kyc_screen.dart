@@ -178,7 +178,7 @@ class _BankKycScreenState extends State<BankKycScreen> {
                       SizedBox(
                         width: screenWidth * 0.5,
                         child: CustomDropdownWidget(
-                          list: const ['Male', "Female", "Other"],
+                          list: const ['M', "F", "T"],
                           onChanged: (value) {
                             setState(() {
                               gender = value!;
@@ -197,14 +197,17 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           keyboardType: TextInputType.text,
                           controller: cityController,
                           onChange: (value) {
-                            if (value.length == 48) {
-                              Logger().i(value);
-                              setState(() {
-                                city = value;
-                              });
-                              FocusScope.of(context).nextFocus();
-                              // FocusScope.of(context).dispose();
-                            }
+                            setState(() {
+                              city = value;
+                            });
+                            // if (value.length == 48) {
+                            //   Logger().i(value);
+                            //   setState(() {
+                            //     city = value;
+                            //   });
+                            //   FocusScope.of(context).nextFocus();
+                            //   // FocusScope.of(context).dispose();
+                            // }
                           },
                         ),
                       ),
@@ -215,14 +218,17 @@ class _BankKycScreenState extends State<BankKycScreen> {
                           keyboardType: TextInputType.text,
                           controller: stateController,
                           onChange: (value) {
-                            if (value.length == 48) {
-                              Logger().i(value);
-                              setState(() {
-                                state = value;
-                              });
-                              FocusScope.of(context).nextFocus();
-                              // FocusScope.of(context).dispose();
-                            }
+                            setState(() {
+                              state = value;
+                            });
+                            // if (value.length == 48) {
+                            //   Logger().i(value);
+                            //   setState(() {
+                            //     state = value;
+                            //   });
+                            //   FocusScope.of(context).nextFocus();
+                            //   // FocusScope.of(context).dispose();
+                            // }
                           },
                         ),
                       ),

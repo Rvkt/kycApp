@@ -8,25 +8,35 @@ import 'package:kyc_app/constants/api_helpers/api_paths.dart';
 import 'package:kyc_app/constants/http_constants.dart';
 import 'package:kyc_app/core/login/login_screen.dart';
 import 'package:kyc_app/merchants_documents_upload_screen.dart';
+import 'package:kyc_app/modules/ImageDisplayWidget.dart';
 import 'package:kyc_app/network/generate_headers.dart';
 import 'package:kyc_app/network/network_response.dart';
+import 'package:kyc_app/providers/image_provider.dart';
 import 'package:kyc_app/widgets/custom_cta_button.dart';
 import 'package:logger/logger.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import 'network/network_post_call.dart';
 
-final MethodChannel _channel = const MethodChannel('camera_channel');
+const MethodChannel _channel = MethodChannel('camera_channel');
+
 String shopImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/shopName.jpg';
 String userImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/userImage.jpg';
+String panImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/panImage.jpg';
+String aadharFrontImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/aadharFrontImage.jpg';
+String aadharBankImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/aadharBankImage.jpg';
+String passBookImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/passBookImage.jpg';
+String livePhotoImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/livePhotoImage.jpg';
+String liveShopPhotoImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/liveShopPhotoImage.jpg';
 
 class ShopVerificationScreen extends StatefulWidget {
-  // final String? shopImage;
-  // final String? userImage;
-
+  final String? shopImage;
+  final String? userImage;
+  //
   const ShopVerificationScreen({
-    super.key,
+    super.key, this.shopImage, this.userImage,
   });
 
   @override
@@ -37,23 +47,46 @@ class _ShopVerificationScreenState extends State<ShopVerificationScreen> {
   bool checkBoxValue = false;
   Widget shopImageWidget = Container();
   Widget userImageWidget = Container();
+  Widget panImageWidget = Container();
+  Widget aadharFrontImageWidget = Container();
+  Widget aadharBackImageWidget = Container();
+  Widget passBookImageWidget = Container();
+  Widget livePhotoImageWidget = Container();
+  Widget liveShopPhotoImageWidget = Container();
 
   File shopImageFile = File(shopImageFilePath);
   File userImageFile = File(userImageFilePath);
+  File panImageFile = File(panImageFilePath);
+  File aadharFrontImageFile = File(aadharFrontImageFilePath);
+  File aadharBackImageFile = File(aadharBankImageFilePath);
+
+  File passBookImageFile = File(passBookImageFilePath);
+  File livePhotoImageFile = File(livePhotoImageFilePath);
+  File liveShopPhotoImageFile = File(liveShopPhotoImageFilePath);
 
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      setState(() {
-        shopImageWidget = shopImageFile.existsSync() ? Image.file(shopImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
-        userImageWidget = userImageFile.existsSync() ? Image.file(userImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
-      });
+    updateImageWidgets();
+  }
+
+  void updateImageWidgets() {
+    setState(() {
+      shopImageWidget = shopImageFile.existsSync() ? Image.file(shopImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+      userImageWidget = userImageFile.existsSync() ? Image.file(userImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+
+      panImageWidget = panImageFile.existsSync() ? Image.file(panImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+      aadharFrontImageWidget = aadharFrontImageFile.existsSync() ? Image.file(aadharFrontImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+      aadharBackImageWidget = aadharBackImageFile.existsSync() ? Image.file(aadharBackImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+
+      passBookImageWidget = passBookImageFile.existsSync() ? Image.file(passBookImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+      livePhotoImageWidget = livePhotoImageFile.existsSync() ? Image.file(livePhotoImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
+      liveShopPhotoImageWidget = liveShopPhotoImageFile.existsSync() ? Image.file(liveShopPhotoImageFile, height: 36, fit: BoxFit.fill) : const Icon(Icons.image_rounded, size: 36);
     });
   }
 
   uploadFile(String shopImageFilePath, String userImageFilePath) async {
-    final String apiUrl = APIUrl.yesKycDocumentUpload;
+    final String apiUrl = APIUrl.yesKycDistributorVerify;
     Map<String, String> headers = await GenerateHeaders.withToken();
 
     try {
@@ -61,21 +94,24 @@ class _ShopVerificationScreenState extends State<ShopVerificationScreen> {
         url: apiUrl,
         headers: headers,
         fields: {
-          // 'panfile': 'panfile_value',
+          'dismerpic': 'dismerpic_value',
+          'shoppic': 'shoppic_value',
           // 'aadharfile': 'aadharfile_value',
           // 'aadharbackfile': 'aadharbackfile_value',
           // 'bankpassbook': 'bankpassbook_value',
-          'livephoto': 'livephoto_value',
-          'liveshopphoto': 'liveshopphoto_value',
-          'latitude': 'latitude_value',
-          'longitude': 'longitude_value',
+          // 'livephoto': 'livephoto_value',
+          // 'liveshopphoto': 'liveshopphoto_value',
+          // 'latitude': 'latitude_value',
+          // 'longitude': 'longitude_value',
           'agendId': 'agendId_value',
+          'otp': 'otp'
         },
         files: [
           // File('path_to_panfile'),
           // File('path_to_aadharfile'),
           // File('path_to_aadharbackfile'),
           // File('path_to_bankpassbook'),
+          // String shopImageFilePath = '/data/user/0/com.softmintindia.kyc_app/cache/shopName.jpg';
           File(userImageFilePath),
           File(shopImageFilePath),
         ],
@@ -97,41 +133,6 @@ class _ShopVerificationScreenState extends State<ShopVerificationScreen> {
       } else {
         Logger().i(networkResponse.data);
       }
-
-      // Define the API endpoint
-      // String apiUrl = APIUrl.yesInitiateAgent;
-      // Uri url = Uri.parse(apiUrl);
-
-      // Define the file path
-      // String filePath = shopImageFilePath;
-
-      // Create a multipart request
-      // var request = http.MultipartRequest('POST', url);
-
-      // Add file to the request
-      // request.files.add(
-      //   await http.MultipartFile.fromPath(
-      //     'file', // API field name for the file
-      //     filePath,
-      //   ),
-      // );
-
-      // Add other form data
-      // request.fields['key1'] = 'value1';
-      // request.fields['key2'] = 'value2';
-      //
-      // // Send the request
-      // var response = await request.send();
-      //
-      // // Check the response status code
-      // if (response.statusCode == 200) {
-      //   // Request successful, do something with the response
-      //   var responseData = await response.stream.bytesToString();
-      //   print('Response: $responseData');
-      // } else {
-      //   // Request failed
-      //   print('Request failed with status: ${response.statusCode}');
-      // }
     } catch (e) {
       // Exception occurred during request
       print('Exception: $e');
@@ -140,10 +141,15 @@ class _ShopVerificationScreenState extends State<ShopVerificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Widget shopImageWidget = shopImageFile.existsSync() ? Image.file(shopImageFile, height: 36, fit: BoxFit.fill,) : const Icon(Icons.image_rounded, size: 36);
-    // Widget userImageWidget = userImageFile.existsSync() ? Image.file(userImageFile, height: 36, fit: BoxFit.fill,) : const Icon(Icons.image_rounded, size: 36);
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    bool hasImage = const ImageDisplayWidget(
+      filename: 'shopName',
+    ).containsImage(context);
+    bool panImage = const ImageDisplayWidget(
+      filename: 'panImage',
+    ).containsImage(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -178,108 +184,116 @@ your application.''',
               ),
             ),
           ),
+
+
+          // const ImageDisplayWidget(
+          //   filename: 'shopName',
+          // ),
           // CustomTextFormField(labelText: 'Enter Aadhar Number', keyboardType: TextInputType.number),
           // CustomDropdownWidget(),
+          // Image.asset(widget.userImage ?? ''),
+
           Card(
-            child: Column(
-              children: [
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CameraApp(
-                          imageName: 'shopName',
-                        ),
-                      ),
-                    );
-                    // CameraHandler.openCamera().catchError((error) {
-                    //   Logger().i("Failed to open camera: '$error'.");
-                    // });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.shade50,
-                    ),
-                    margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: shopImageWidget,
-                        ),
-                        // const Icon(
-                        //   Icons.image_rounded,
-                        //   size: 36,
-                        // ),
-                        // Image.file(File(widget.shopImage ?? ''),),
-                        const Text(
-                          'Upload Shop"s Image',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        shopImageFile.existsSync()
-                            ? Icon(
-                                Icons.check_circle,
-                                color: Colors.lightGreenAccent.shade700,
-                              )
-                            : Icon(
-                                Icons.upload,
-                                color: Colors.grey.shade100,
-                              ),
-                      ],
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            shadowColor: Colors.black87,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CameraApp(
+                      imageName: 'shopName',
                     ),
                   ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey.shade50,
                 ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const CameraApp(
-                          imageName: 'userImage',
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.grey.shade50,
+                margin: const EdgeInsets.all(4),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: shopImageWidget,
                     ),
-                    margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(4),
-                          child: userImageWidget,
-                        ),
-                        const Text(
-                          'Upload Your Image',
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                        userImageFile.existsSync()
-                            ? Icon(
-                                Icons.check_circle,
-                                color: Colors.lightGreenAccent.shade700,
-                              )
-                            : Icon(
-                                Icons.upload,
-                                color: Colors.grey.shade100,
-                              ),
-                        // Icon(
-                        //   Icons.upload,
-                        //   color: Colors.black54,
-                        // )
-                      ],
+                    shopImageFile.existsSync()
+                        ? const Text(
+                            "Upload Shop's Image",
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          )
+                        : const Text(
+                            "Shop's Image Uploaded",
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                    shopImageFile.existsSync()
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Colors.lightGreenAccent.shade700,
+                          )
+                        : Icon(
+                            Icons.upload,
+                            color: Colors.grey.shade400,
+                          ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          Card(
+            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            shadowColor: Colors.black87,
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const CameraApp(
+                      imageName: 'userImage',
                     ),
                   ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.grey.shade50,
                 ),
-              ],
+                margin: const EdgeInsets.all(4),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(4),
+                      child: userImageWidget,
+                    ),
+                    userImageFile.existsSync()
+                        ? const Text(
+                            "User Image Uploaded",
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          )
+                        : const Text(
+                            "Upload User Image",
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                    userImageFile.existsSync()
+                        ? Icon(
+                            Icons.check_circle,
+                            color: Colors.lightGreenAccent.shade700,
+                          )
+                        : Icon(
+                            Icons.upload,
+                            color: Colors.grey.shade400,
+                          ),
+                  ],
+                ),
+              ),
             ),
           ),
           const Spacer(),
@@ -292,8 +306,6 @@ your application.''',
           //     userImageWidget,
           //   ],
           // ),
-
-          // Image.asset('/data/user/0/com.softmintindia.kyc_app/cache/${'shopName'}.jpg' ?? 'assets/logo/logo.png'),
           CustomCtaButton(
             label: 'Proceed',
             onTap: () {
@@ -345,3 +357,71 @@ your application.''',
 //     }
 //   }
 // }
+
+class UploadImageWidget extends StatefulWidget {
+  const UploadImageWidget({super.key});
+
+  @override
+  State<UploadImageWidget> createState() => _UploadImageWidgetState();
+}
+
+class _UploadImageWidgetState extends State<UploadImageWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      shadowColor: Colors.black87,
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CameraApp(
+                imageName: 'shopName',
+              ),
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey.shade50,
+          ),
+          margin: const EdgeInsets.all(4),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: File(shopImageFilePath).existsSync()
+                    ? Image.file(
+                        File(shopImageFilePath),
+                        height: 36,
+                        fit: BoxFit.fill,
+                      )
+                    : const Icon(
+                        Icons.image_rounded,
+                        size: 36,
+                      ),
+              ),
+              const Text(
+                'Upload Shop"s Image',
+                style: TextStyle(fontWeight: FontWeight.w500),
+              ),
+              File(shopImageFilePath).existsSync()
+                  ? Icon(
+                      Icons.check_circle,
+                      color: Colors.lightGreenAccent.shade700,
+                    )
+                  : Icon(
+                      Icons.upload,
+                      color: Colors.grey.shade100,
+                    ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

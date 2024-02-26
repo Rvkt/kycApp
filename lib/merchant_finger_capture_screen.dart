@@ -12,6 +12,8 @@ import 'package:logger/logger.dart';
 import 'package:xml/xml.dart';
 import 'package:provider/provider.dart';
 
+import 'merchants_documents_upload_screen.dart';
+
 const platform = MethodChannel('rd_service');
 
 class MerchantFingerCaptureScreen extends StatefulWidget {
@@ -49,12 +51,13 @@ class _MerchantFingerCaptureScreenState extends State<MerchantFingerCaptureScree
     String status = yesBiometricKycResponseModel!.status;
 
     if (status == 'SUCCESS') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => ShopVerificationScreen(),
-        ),
-      );
+      Logger().i('Proceed To Merchant Documents upload Screen');
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => MerchantDocumentsUploadScreen(),
+      //   ),
+      // );
     }
   }
 
@@ -67,7 +70,7 @@ class _MerchantFingerCaptureScreenState extends State<MerchantFingerCaptureScree
   ];
   TextEditingController aadharController = TextEditingController();
 
-  final pidOptions = '<PidOptions ver="1.0"> <Opts fCount="1" fType="2" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="20000" posh="UNKNOWN" env="P" wadh=""/> <CustOpts><Param name="mantrakey" value="" /></CustOpts> </PidOptions>';
+  final pidOptions = '<PidOptions ver="1.0"> <Opts fCount="1" fType="2" iCount="0" pCount="0" format="0" pidVer="2.0" timeout="20000" posh="UNKNOWN" env="P" wadh="E0jzJ/P8UopUHAieZn8CKqS4WPMi5ZSYXgfnlfkWjrc="/> <CustOpts><Param name="mantrakey" value="" /></CustOpts> </PidOptions>';
 
   void setupMethodChannel() {
     platform.setMethodCallHandler((call) async {

@@ -368,7 +368,7 @@ class GenerateRequest {
   }
 
   static String yesInitiateAgent({
-    String operatorIncode = "YPN",
+    String operatorIncode = "27",
     required String firstName,
     required String lastName,
     required String shopAddress,
@@ -388,8 +388,8 @@ class GenerateRequest {
       'firstName': firstName,
       'lastName': lastName,
       'shopAddress': shopAddress,
-      'city': city,
-      'state': state,
+      'city': 'Rampur',
+      'state': 'UP',
       'pincode': pincode,
       'shopName': shopName,
       'mobile': mobile,
@@ -405,7 +405,7 @@ class GenerateRequest {
   }
 
   static String yesOtpCreation({
-    String operatorIncode = "YPN",
+    String operatorIncode = "27",
     required String mobile,
     required String otp_token,
     required String otp,
@@ -424,7 +424,7 @@ class GenerateRequest {
   }
 
   static String yesBiometricKyc({
-    String operatorIncode = "YPN",
+    String operatorIncode = "27",
     required String mobile,
     required String agent_id,
     required String aadhaar,

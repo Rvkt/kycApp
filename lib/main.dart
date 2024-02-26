@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:kyc_app/bank_kyc_otp_verification.dart';
 import 'package:kyc_app/bank_kyc_screen.dart';
 import 'package:kyc_app/core/auth_screen.dart';
 import 'package:kyc_app/dashboard_screen.dart';
@@ -10,6 +11,7 @@ import 'package:kyc_app/core/login/login_screen.dart';
 import 'package:kyc_app/merchant_finger_capture_screen.dart';
 import 'package:kyc_app/merchants_documents_upload_screen.dart';
 import 'package:kyc_app/otp_verification_screen.dart';
+import 'package:kyc_app/providers/image_provider.dart';
 import 'package:kyc_app/providers/kyc_provider.dart';
 import 'package:kyc_app/providers/user_provider.dart';
 import 'package:kyc_app/thank_you_screen.dart';
@@ -97,6 +99,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => BankKycProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (context) => CustomImageProvider(),
+        ),
       ],
       child: const MaterialApp(
         // debugShowMaterialGrid: true,
@@ -125,7 +130,8 @@ class MyApp extends StatelessWidget {
         // ),
         // navigatorKey: navigatorKey,
         home: AuthScreen(),
-        // home: MerchantFingerCaptureScreen(mobile: '9988776655', agentId: 'qwerty', kycToken: '',),
+        // home: ShopVerificationScreen(),
+        // home: MerchantFingerCaptureScreen(mobile: '9988776655', agentId: 'qwerty', kycToken: '', wadh: '',)
       ),
     );
   }

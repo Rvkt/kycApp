@@ -7,6 +7,7 @@ import 'package:kyc_app/core/login/login_screen.dart';
 import 'package:kyc_app/dashboard_screen.dart';
 import 'package:kyc_app/network/generate_headers.dart';
 import 'package:kyc_app/network/network_response.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../network/network_post_call.dart';
@@ -64,7 +65,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
     Map<String, dynamic> responseMap = json.decode(response.data ?? '');
 
-    // logger.w(responseMap);
+    Logger().i(responseMap);
 
     int status = responseMap['status'];
 

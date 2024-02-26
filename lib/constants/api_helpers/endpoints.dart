@@ -57,5 +57,6 @@ class Endpoints {
   static String yesOtpCreation = 'yes/otpcreation';
   static String yesBiometricKyc = 'yes/biometrickyc';
   static String yesKycDocumentUpload = 'yeskyc/documentupload';
+  static String yesKycDistributorVerify = 'yeskyc/distributorverify';
 
 }

@@ -4,9 +4,13 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:kyc_app/providers/image_provider.dart';
 import 'package:kyc_app/shop_verification_screen_via_image.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'merchants_documents_upload_screen.dart';
 
 class CameraApp extends StatefulWidget {
   final String? imageName;
@@ -20,9 +24,8 @@ class CameraApp extends StatefulWidget {
 class _CameraAppState extends State<CameraApp> {
   List<CameraDescription> cameras = [];
   CameraController? controller;
-  CameraController? dummyController;
   Future<void>? _initializeControllerFuture;
-  Future<void>? _initializeDummyControllerFuture;
+  File? imageFile;
 
   @override
   void initState() {
@@ -35,11 +38,8 @@ class _CameraAppState extends State<CameraApp> {
     try {
       cameras = await availableCameras();
       controller = CameraController(cameras[0], ResolutionPreset.max);
-      // dummyController = CameraController(cameras[0], ResolutionPreset.max);
       _initializeControllerFuture = controller!.initialize();
-      // _initializeDummyControllerFuture = dummyController!.initialize();
       await _initializeControllerFuture; // Wait for controller initialization
-      // await _initializeDummyControllerFuture;
       setState(() {}); // Update the state once the camera is initialized
     } catch (e) {
       print('Failed to initialize camera: $e');
@@ -49,7 +49,6 @@ class _CameraAppState extends State<CameraApp> {
   @override
   void dispose() {
     controller?.dispose();
-    // dummyController?.dispose();
     super.dispose();
   }
 
@@ -59,38 +58,30 @@ class _CameraAppState extends State<CameraApp> {
 
       XFile? file = await controller?.takePicture();
       Uint8List data = await file!.readAsBytes();
-      ByteBuffer byte = data.buffer;
 
       Directory cacheDir = await getTemporaryDirectory();
       Logger().i(cacheDir);
 
       String filePath = '${cacheDir.path}/${widget.imageName}.jpg';
-      File imageFile = File(filePath);
+      File newImageFile = File(filePath);
 
-      if (await imageFile.exists()) {
-        await imageFile.delete();
+      await newImageFile.writeAsBytes(data);
+
+      Logger().i(newImageFile.path);
+      setState(() {
+        imageFile = newImageFile;
+      });
+
+      CustomImageProvider imageProvider = Provider.of<CustomImageProvider>(context, listen: false);
+      if (widget.imageName != null && imageFile != null) {
+        imageProvider.saveImage(widget.imageName!, imageFile!);
       }
 
-      await imageFile.writeAsBytes(data);
-
-      Logger().i(cacheDir);
-
-      Navigator.of(context).pushAndRemoveUntil(
+      Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const ShopVerificationScreen(),
+          builder: (context) => ShopVerificationScreen(userImage: newImageFile.path,),
         ),
-        (route) {
-          return false;
-        },
       );
-
-      // Navigator.push(
-      //   this.context,
-      //   MaterialPageRoute(
-      //     builder: (context) => DisplayPictureScreen(imagePath: file.path),
-      //   ),
-      // );
-      // Navigator.pop(context);
     } catch (e) {
       print(e);
     }
